@@ -75,8 +75,8 @@ impl Hyperlink {
 
     pub fn parse(osc: &[&[u8]]) -> Result<Option<Hyperlink>> {
         ensure!(osc.len() >= 3, "wrong param count");
-        // The URI is everything after the params, so any further
-        // parameters are parts of a URI that contained `;`.
+        // Take everything after the params, so any further `;…` are counted as part of the URI
+        // e.g. `https://example.com/a;b;c=d` would have been split in 3 parts by the OSC splitter.
         let uri = osc[2..].join(&b';');
         if osc[1].is_empty() && uri.is_empty() {
             // Clearing current hyperlink
